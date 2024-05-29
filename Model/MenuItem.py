@@ -12,6 +12,8 @@ class MenuItem(MenuComponent):
         print(self.name)
 
     def execute(self, *args) -> bool:
+        if self.action is None and self.next_page is not None:
+            return True 
         return self.action(*args)
 
     def get_next_page(self):

@@ -18,3 +18,11 @@ def seed():
 
     conn.commit()
     c.close()
+
+def clear():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM users')
+    c.execute('DELETE FROM members')
+    conn.commit()
+    c.close()

@@ -9,3 +9,6 @@ class Member:
         self.address = address
         self.phone = phone
         self.email = email
+
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name} ({self.member_ID}) - {self.address}, {self.phone}, {self.email}"

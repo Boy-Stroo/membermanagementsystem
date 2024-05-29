@@ -1,4 +1,4 @@
-
+import os
 
 from Model.MenuComponent import MenuComponent
 
@@ -11,7 +11,7 @@ class MenuPage(MenuComponent):
 
 
     def execute(self, *args):
-        
+        os.system('cls' if os.name == 'nt' else 'clear')
 
         print(self.name)
 
