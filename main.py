@@ -32,5 +32,5 @@ for user in users:
 
 # Uncomment this to run the program
 login_page = MenuMaker.define_menu_structure()
-# while True:
-#     login_page.execute()
+while True:
+    login_page.execute()

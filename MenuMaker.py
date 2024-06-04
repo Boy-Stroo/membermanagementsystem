@@ -1,17 +1,25 @@
 from Controller.LoginController import LoginController
+from Controller.UIFormatter import UIFormatter
+from Model.CollectionMenuPage import CollectionMenuPage
 from Model.MenuItem import MenuItem
 from Model.MenuPage import MenuPage
+from Service.Service import Service
+from Service.UserService import UserService
 
 
 class MenuMaker:
         
     
     def define_menu_structure():
-        login_page = MenuPage("Login")
-        home_page = MenuPage("Home")
-        member_page = MenuPage("Member")
-        user_page = MenuPage("User")
-        system_info_page = MenuPage("System Information")
+        formatter = UIFormatter()
+        user_service = UserService()
+
+
+        login_page = MenuPage("Login", formatter)
+        home_page = MenuPage("Home", formatter)
+        member_page = MenuPage("Member", formatter)
+        user_page = CollectionMenuPage("User", user_service, formatter)
+        system_info_page = MenuPage("System Information", formatter)
 
         login_controller = LoginController()
 

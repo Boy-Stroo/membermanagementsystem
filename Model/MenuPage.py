@@ -4,19 +4,17 @@ from Model.MenuComponent import MenuComponent
 
 
 class MenuPage(MenuComponent):
-    def __init__(self, name, parent=None):
+    def __init__(self, name, formatter, parent=None):
         self.name = name
         self.parent = parent
+        self.formatter = formatter
         self.menu_items = []
 
 
     def execute(self, *args):
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        print(self.name)
-
-        for index, item in enumerate(self.menu_items, start=1):
-            print(f"{index}. {item.name}")
+        self.display()
 
         option = self.get_input()
 
@@ -54,7 +52,11 @@ class MenuPage(MenuComponent):
             self.parent.execute()
 
     def display(self):
-        self.execute()
+        print(self.formatter.display_header(self.name))
+        print(self.formatter.format_menu(self.menu_items))
 
     def set_parent(self, parent):
         self.parent = parent
+
+    def display_extra_info(self):
+        pass

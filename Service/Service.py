@@ -4,6 +4,7 @@ class Service:
     def __init__(self):
         self.conn = sqlite3.connect('database.db')
         self.c = self.conn.cursor()
+        self.columns = []
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
