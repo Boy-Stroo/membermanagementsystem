@@ -2,11 +2,15 @@ from Model.Role import Role
 
 
 class User:
-    def __init__(self, id, username, password, role: Role):
+    def __init__(self, id, username, password, role: Role, first_name, last_name, registration_date):
         self.id = id
         self.username = username
         self.password = password
-        self.role = role if isinstance(role, Role) else Role(role)
+        self.first_name = first_name
+        self.last_name = last_name
+        self.registration_date = registration_date
+        self.role = role if isinstance(role, Role) else Role(role)        
+
 
     def __str__(self):
         return f'{self.id} {self.username} {self.role}'
