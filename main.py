@@ -6,7 +6,6 @@ from Controller.MemberController import MemberController
 from MenuMaker import MenuMaker
 from Service.MemberService import MemberService
 from Service.UserService import UserService
-import seeder
 from Controller.Controllers import Controllers
 
 from Model.User import User, Role
@@ -18,16 +17,23 @@ from Model.MenuItem import MenuItem
 memberservice = MemberService()
 userservice = UserService()
 
-members = memberservice.get_all()
-users = userservice.get_all()
+memberservice.drop_table()
+userservice.drop_table()
 
-for member in members:
-    print(member)
+memberservice.create_table()
+userservice.create_table()
 
-for user in users:
-    myuser = User(*user)
-    if myuser.role < Role.CONSULTANT:
-        print(myuser)
+
+
+# members = memberservice.get_all()
+
+# for member in members:
+#     print(member)
+
+# for user in users:
+#     myuser = User(*user)
+#     if myuser.role < Role.CONSULTANT:
+#         print(myuser)
 
 
 # Uncomment this to run the program

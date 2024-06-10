@@ -1,13 +1,5 @@
 import sqlite3
 
-def create_tables():
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, role INTEGER)')
-    c.execute('CREATE TABLE IF NOT EXISTS members (id TEXT PRIMARY KEY, name TEXT, birthdate TEXT, address TEXT, phone TEXT, email TEXT)')
-    conn.commit()
-    c.close()
-
 def seed():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()

@@ -23,6 +23,8 @@ class MenuPage(MenuComponent):
             if next_page is not None:
                 next_page.set_parent(self)
                 next_page.execute(*args)
+            else:
+                self.execute(*args)
         
     
 
@@ -57,6 +59,3 @@ class MenuPage(MenuComponent):
 
     def set_parent(self, parent):
         self.parent = parent
-
-    def display_extra_info(self):
-        pass
