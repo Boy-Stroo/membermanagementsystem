@@ -6,7 +6,7 @@ import random
 
 class MemberController:
     
-    def __init__(self, member_validator):
+    def __init__(self, member_validator = None):
         self.member_validator = member_validator
  
 

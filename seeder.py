@@ -1,12 +1,21 @@
 import sqlite3
 
-def create_tables():
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, role INTEGER)')
-    c.execute('CREATE TABLE IF NOT EXISTS members (id TEXT PRIMARY KEY, name TEXT, birthdate TEXT, address TEXT, phone TEXT, email TEXT)')
-    conn.commit()
-    c.close()
+from Model.Member import Member
+from Model.User import User
+
+members = [
+    (1, 'John Doe', '1990-01-01', '123 Main St, Springfield, IL 62701', '555-555-5555', 'john_doe@gmail.com', '2021-01-01'),
+    (2, 'Jane Doe', '1990-01-01', '123 Main St, Springfield, IL 62701', '555-555-5555', 'jane_doe@gmail.com', '2021-01-07'),
+    (3, 'John Smith', '1990-01-01', '123 Main St, Springfield, IL 62701', '555-555-5555', 'john_smith@yahoo.com', '2021-02-01'),
+    (4, 'Jane Smith', '1990-01-01', '123 Main St, Springfield, IL 62701', '555-555-5555', 'jane_smith@outlook.com', '2021-02-07')
+]
+
+users = [
+    (1, 'superadmin', 'superadmin', 1, 'John', 'Doe', '2021-01-01'),
+    (2, 'admin', 'admin', 2, 'Jane', 'Doe', '2021-01-07'),
+    (3, 'consultant', 'consultant', 3, 'John', 'Smith', '2021-02-01'),
+    (4, 'consultant', 'consultant', 3, 'Jane', 'Smith', '2021-02-07')
+]
 
 def seed():
     conn = sqlite3.connect('database.db')
@@ -24,5 +33,13 @@ def clear():
     c = conn.cursor()
     c.execute('DELETE FROM users')
     c.execute('DELETE FROM members')
+    conn.commit()
+    c.close()
+
+def drop():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('DROP TABLE users')
+    c.execute('DROP TABLE members')
     conn.commit()
     c.close()

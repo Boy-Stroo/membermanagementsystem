@@ -13,10 +13,14 @@ from Model.User import User, Role
 from Model.MenuItem import MenuItem
 
 
+
 # Testing area
+seeder.drop()
 
 memberservice = MemberService()
 userservice = UserService()
+memberservice.create_table()
+userservice.create_table()
 
 members = memberservice.get_all()
 users = userservice.get_all()
