@@ -38,6 +38,18 @@ class MemberController:
         print(f'Generated member ID: {member_id}')
         input('Press enter t continue...')
         return member_id
+    
+    def add_new_member(self) -> bool:
+        return True
+
+    def update_member(self) -> bool:
+        return True
+
+    def remove_member(self):
+        return True
+
+    def overview_members(self):
+        return True
 
 if (__name__ == "__main__"):
     member_controller = MemberController()

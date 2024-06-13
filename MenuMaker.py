@@ -6,6 +6,9 @@ from Model.MenuPage import MenuPage
 from Service.MemberService import MemberService
 from Service.Service import Service
 from Service.UserService import UserService
+from Service.MemberService import MemberService
+from Controller.UserController import UserController
+from Controller.MemberController import MemberController
 
 
 class MenuMaker:
@@ -24,6 +27,8 @@ class MenuMaker:
         system_info_page = MenuPage("System Information", formatter)
 
         login_controller = LoginController()
+        user_controller = UserController()
+        member_controller = MemberController()
 
 
 
@@ -34,12 +39,25 @@ class MenuMaker:
         home_page.add_menu_item(MenuItem("Member", None, member_page))
         home_page.add_menu_item(MenuItem("User", None, user_page))
         home_page.add_menu_item(MenuItem("System Information", None, system_info_page))
+        home_page.add_menu_item(MenuItem("Forgot own password", user_controller.forgot_own_password))
         home_page.add_menu_item(MenuItem("Logout", home_page.quit, login_page))
 
+        member_page.add_menu_item(MenuItem("Add new member", member_controller.add_new_member))
+        member_page.add_menu_item(MenuItem("Update member", member_controller.update_member))
+        member_page.add_menu_item(MenuItem("Remove member", member_controller.remove_member))
+        member_page.add_menu_item(MenuItem("Overview members with search/filter", member_controller.overview_members))
         member_page.add_menu_item(MenuItem("Back", member_page.quit, None))
 
+        user_page.add_menu_item(MenuItem("Add new user", user_controller.add_new_user))
+        user_page.add_menu_item(MenuItem("Update user", user_controller.update_user))
+        user_page.add_menu_item(MenuItem("Remove user", user_controller.remove_user))
+        user_page.add_menu_item(MenuItem("Filter users", user_controller.overview_users))
+        user_page.add_menu_item(MenuItem("Reset users password (SA)", user_controller.reset_user_password))
         user_page.add_menu_item(MenuItem("Back", user_page.quit, None))
 
         system_info_page.add_menu_item(MenuItem("Back", system_info_page.quit, None))
         
         return login_page
+    
+if __name__ == "__main__":
+    menu = MenuMaker.define_menu_structure()

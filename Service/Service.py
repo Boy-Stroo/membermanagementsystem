@@ -4,7 +4,8 @@ class Service:
     def __init__(self):
         self.conn = sqlite3.connect('database.db')
         self.c = self.conn.cursor()
-        self.columns = []
+        self.table = 'table'
+        self.columns = {}
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -39,21 +40,21 @@ class Service:
         return self.c.rowcount
     
     def delete_from_table(self, table, id):
-        self.c.execute(f'DELETE FROM {table} WHERE id = ?', (id,))
+        self.c.execute(f'DELETE FROM {table} WHERE id = ?', (id))
         self.conn.commit()
         return self.c.rowcount
     
     def get_all(self):
-        return self.get_all_from_table(self.table, self.columns)
+        return self.get_all_from_table(self.table, self.columns.keys())
 
     def get_by_id(self, id):
-        return self.get_by_id_from_table(self.table, self.columns, id)
+        return self.get_by_id_from_table(self.table, self.columns.keys(), id)
 
     def create(self, data):
-        return self.create_in_table(self.table, self.columns, data)
+        return self.create_in_table(self.table, self.columns.keys(), data)
 
     def update(self, id, data):
-        return self.update_in_table(self.table, self.columns, id, data)
+        return self.update_in_table(self.table, self.columns.keys(), id, data)
 
     def delete(self, id):
         return self.delete_from_table(self.table, id)

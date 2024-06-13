@@ -10,7 +10,7 @@ class UIFormatter():
 
 
     def format_menu(self, menu_items: list):
-        menu = '';
+        menu = ''
         for index, item in enumerate(menu_items, start=1):
             menu += f"{index}. {item.name}\n"
         
