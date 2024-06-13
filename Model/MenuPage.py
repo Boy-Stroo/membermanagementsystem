@@ -18,7 +18,7 @@ class MenuPage(MenuComponent):
 
         option = self.get_input()
 
-        if self.menu_items[option - 1].execute(*args):
+        if self.menu_items[option - 1].execute():
             next_page : MenuPage = self.menu_items[option - 1].get_next_page()
             if next_page is not None:
                 next_page.set_parent(self)

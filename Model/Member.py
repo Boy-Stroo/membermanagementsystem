@@ -12,4 +12,4 @@ class Member:
         self.registration_date = registration_date
 
     def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name} ({self.member_ID}) - {self.address}, {self.phone}, {self.email}"
+        return f'{self.member_ID} {self.first_name} {self.last_name} {self.address} {self.phone} {self.email} {self.registration_date}'

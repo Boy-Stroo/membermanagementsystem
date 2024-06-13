@@ -11,7 +11,5 @@ class User:
         self.registration_date = registration_date
         self.role = role if isinstance(role, Role) else Role(role)        
 
-
-    def __str__(self):
-        return f'{self.id} {self.username} {self.role}'
-    
+    def __str__(self) -> str:
+        return f'{self.id} {self.username} {self.first_name} {self.last_name} {self.registration_date} {self.role}'

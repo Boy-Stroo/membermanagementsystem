@@ -1,4 +1,4 @@
-
+from Model.MenuPage import MenuPage
 
 class UserController:
     def __init__(self):
@@ -16,8 +16,11 @@ class UserController:
     def forgot_own_password(self):
         return True
     
-    def overview_users(self):
-        return True
+    # def overview_users(self, menu_page : MenuPage):
+    #     search_term = input('Enter search term: ').lower()
+    #     filtered_collection = [x for x in menu_page.collection if x.__str__().lower().find(search_term) != -1]
+    #     menu_page.filtered_collection = filtered_collection
+    #     return True
     
     def reset_user_password(self):
         return True

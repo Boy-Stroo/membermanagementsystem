@@ -1,6 +1,7 @@
 import datetime
 import random
 import sqlite3
+import seeder
 
 from Controller.DataEncrypter import DataEncrypter
 from Controller.MemberController import MemberController
@@ -8,7 +9,7 @@ from MenuMaker import MenuMaker
 from Service.MemberService import MemberService
 from Service.UserService import UserService
 from Controller.Controllers import Controllers
-import seeder
+
 from Model.User import User, Role
 from Model.MenuItem import MenuItem
 
