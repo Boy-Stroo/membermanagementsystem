@@ -45,16 +45,16 @@ class Service:
         return self.c.rowcount
     
     def get_all(self):
-        return self.get_all_from_table(self.table, self.columns.keys())
+        return self.get_all_from_table(self.table, self.columns)
 
     def get_by_id(self, id):
-        return self.get_by_id_from_table(self.table, self.columns.keys(), id)
+        return self.get_by_id_from_table(self.table, self.columns, id)
 
     def create(self, data):
-        return self.create_in_table(self.table, self.columns.keys(), data)
+        return self.create_in_table(self.table, self.columns, data)
 
     def update(self, id, data):
-        return self.update_in_table(self.table, self.columns.keys(), id, data)
+        return self.update_in_table(self.table, self.columns, id, data)
 
     def delete(self, id):
         return self.delete_from_table(self.table, id)
