@@ -16,11 +16,6 @@ class Service:
         self.c.execute(f'CREATE TABLE IF NOT EXISTS {self.table} ({", ".join([f"{column} TEXT" for column in self.columns])})')
         self.conn.commit()
 
-    def get_by_column(self, column, value, result_column):
-        self.c.execute(f'SELECT {result_column} FROM {self.table} WHERE {column} = ?', (value,))
-        return self.c.fetchone()[0]
-
-
     def get_all_from_table(self, table, columns):
         self.c.execute(f'SELECT {", ".join(columns)} FROM {table}')
         return self.c.fetchall()
