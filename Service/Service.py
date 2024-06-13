@@ -1,6 +1,7 @@
+from abc import ABC
 import sqlite3
 
-class Service:
+class Service(ABC):
     def __init__(self):
         self.conn = sqlite3.connect('database.db')
         self.c = self.conn.cursor()
@@ -20,10 +21,6 @@ class Service:
         self.c.execute(f'SELECT {", ".join(columns)} FROM {table}')
         return self.c.fetchall()
     
-    def get_by_id_from_table(self, table, columns, id):
-        self.c.execute(f'SELECT {", ".join(columns)} FROM {table} WHERE id = ?', (id,))
-        return self.c.fetchone()
-    
     def create_in_table(self, table, columns, data):
         self.c.execute(f'INSERT INTO {table} ({", ".join(columns)}) VALUES ({", ".join(["?" for _ in columns])})', tuple(data.values()))
         self.conn.commit()
@@ -41,9 +38,6 @@ class Service:
     
     def get_all(self):
         return self.get_all_from_table(self.table, self.columns)
-
-    def get_by_id(self, id):
-        return self.get_by_id_from_table(self.table, self.columns, id)
 
     def create(self, data):
         return self.create_in_table(self.table, self.columns, data)

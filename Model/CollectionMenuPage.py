@@ -11,8 +11,9 @@ class CollectionMenuPage(MenuPage):
         super().__init__(name, parent)
         self.service = service
         self.encrypted_collection = service.get_all()
-        self.collection = [DataEncrypter().decrypt_data(member) for member in service.get_all()]
+        self.collection = [DataEncrypter().decrypt_data(member) for member in self.encrypted_collection]
         self.filtered_collection = []
+        self.active_filters = []
         self.formatter = formatter
 
 
@@ -22,16 +23,14 @@ class CollectionMenuPage(MenuPage):
     def display(self):
         print(self.formatter.display_header(self.name))
 
-        if self.filtered_collection:
+        if self.filtered_collection or self.active_filters:
+            print(self.formatter.display_filters(self.active_filters))
             print(self.formatter.format_collection(self.filtered_collection, self.service.columns))
         else:
             print(self.formatter.format_collection(self.collection, self.service.columns ))
         
         print(self.formatter.format_menu(self.menu_items))
-        
-    def reset(self):
-        return True
-    
+
     def quit(self):
         self.filtered_collection = []
         super().quit()

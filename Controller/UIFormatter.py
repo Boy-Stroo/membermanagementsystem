@@ -18,5 +18,7 @@ class UIFormatter():
 
     def format_collection(self, collection: list, headers):
         return tabulate(collection, headers=headers, tablefmt='fancy_grid')
-        
+    
+    def display_filters(self, filters: list):
+        return f"Active filters: {', '.join(filters)}"
 
