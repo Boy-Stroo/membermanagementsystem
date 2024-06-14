@@ -17,4 +17,3 @@ class CollectionController:
         menu_page.filtered_collection = []
         menu_page.active_filters = []
         return True
-

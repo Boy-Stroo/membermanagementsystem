@@ -50,6 +50,9 @@ class MemberController:
 
     def overview_members(self):
         return True
+    
+    def reset_user_password(self):
+        return True
 
 if (__name__ == "__main__"):
     member_controller = MemberController()

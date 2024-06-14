@@ -13,7 +13,7 @@ class UserController:
     def remove_user(self, username):
         return True
 
-    def forgot_own_password(self):
+    def change_own_password(self):
         return True
     
     # def overview_users(self, menu_page : MenuPage):
