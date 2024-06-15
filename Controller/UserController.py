@@ -1,26 +1,25 @@
-from Model.MenuPage import MenuPage
+from Controller.CollectionController import CollectionController
 
-class UserController:
-    def __init__(self):
-        pass
+class UserController(CollectionController):
 
-    def add_new_user(self, username, password):
-        return True
-
-    def update_user(self, username, password):
-        return True
-
-    def remove_user(self, username):
-        return True
+    _instance = None
+    def __init__(self, service, input_validator):
+        if UserController._instance is not None:
+            return UserController._instance
+        UserController._instance = self
+        super().__init__(service, input_validator)
 
     def change_own_password(self):
         return True
     
-    # def overview_users(self, menu_page : MenuPage):
-    #     search_term = input('Enter search term: ').lower()
-    #     filtered_collection = [x for x in menu_page.collection if x.__str__().lower().find(search_term) != -1]
-    #     menu_page.filtered_collection = filtered_collection
-    #     return True
-    
     def reset_user_password(self):
+        return True
+    
+    def add_new_user(self):
+        return True
+    
+    def update_user(self):  
+        return True
+    
+    def remove_user(self):  
         return True

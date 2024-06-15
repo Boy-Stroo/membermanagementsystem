@@ -21,13 +21,13 @@ class Service(ABC):
         self.c.execute(f'SELECT {", ".join(columns)} FROM {table}')
         return self.c.fetchall()
     
-    def create_in_table(self, table, columns, data):
-        self.c.execute(f'INSERT INTO {table} ({", ".join(columns)}) VALUES ({", ".join(["?" for _ in columns])})', tuple(data.values()))
+    def create_in_table(self, table, columns, data: list):
+        self.c.execute(f'INSERT INTO {table} ({", ".join(columns)}) VALUES ({", ".join(["?" for _ in columns])})', (*data,))
         self.conn.commit()
         return self.c.lastrowid
     
     def update_in_table(self, table, columns, id, data):
-        self.c.execute(f'UPDATE {table} SET {", ".join([f"{column} = ?" for column in columns])} WHERE id = ?', (*data.values(), id))
+        self.c.execute(f'UPDATE {table} SET {", ".join([f"{column} = ?" for column in columns])} WHERE id = ?', (*data, id))
         self.conn.commit()
         return self.c.rowcount
     

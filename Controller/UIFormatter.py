@@ -17,7 +17,7 @@ class UIFormatter():
         return menu
 
     def format_collection(self, collection: list, headers):
-        return tabulate(collection, headers=headers, tablefmt='fancy_grid')
+        return tabulate(collection, headers=headers, tablefmt='rounded_grid')
     
     def display_filters(self, filters: list):
         return f"Active filters: {', '.join(filters)}"

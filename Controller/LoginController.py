@@ -1,7 +1,6 @@
 
 class LoginController:
 
-
     def check_login(self, username, password):
         print("check_login")
 

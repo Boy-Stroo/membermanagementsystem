@@ -1,32 +1,27 @@
 import datetime
 import random
 import sqlite3
-import seeder
+# import seeder
 
 from Controller.DataEncrypter import DataEncrypter
 from Controller.MemberController import MemberController
 from MenuMaker import MenuMaker
 from Service.MemberService import MemberService
 from Service.UserService import UserService
-from Controller.Controllers import Controllers
 
 from Model.User import User, Role
 from Model.MenuItem import MenuItem
 
 
-
-
 # Testing area
-seeder.drop()
+# seeder.drop()
 
 memberservice = MemberService()
 userservice = UserService()
 memberservice.create_table()
 userservice.create_table()
-seeder.seed()
+# seeder.seed()
 
-members = memberservice.get_all()
-users = userservice.get_all()
 
 # for member in members:
 #     print(member)
@@ -35,10 +30,6 @@ users = userservice.get_all()
 #     myuser = User(*user)
 #     if myuser.role < Role.CONSULTANT:
 #         print(myuser)
-
-for member in members:
-    unencrypted_member = DataEncrypter().decrypt_data(member)
-    print(unencrypted_member)
 
 # Uncomment this to run the program
 login_page = MenuMaker.define_menu_structure()
