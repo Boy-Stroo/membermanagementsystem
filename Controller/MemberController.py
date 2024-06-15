@@ -27,7 +27,6 @@ class MemberController(CollectionController):
         # Add first to numbers of the year
         random_numbers.append(int(year[0]))
         random_numbers.append(int(year[1]))
-        
 
         # Add 7 random numbers
         for i in range(0, 7):
@@ -95,6 +94,7 @@ class MemberController(CollectionController):
             print("Enter zipcode: ", end="")
             zipcode = input()
             if self.input_validator.validate_member_zipcode(zipcode) is not None:
+                zipcode = zipcode.upper()
                 break
             print(self.input_validator.get_zipcode_rules())
 

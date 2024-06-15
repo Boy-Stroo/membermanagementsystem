@@ -8,16 +8,19 @@ class InputValidator:
     def validate_input(self, input):
         pass
 
-    def validate_username(self, username):
-        regex = r"^[a-zA-Z0-9_'.]{8,10}"
+    def validate_user_name(self, username):
+        regex = r"^[a-zA-Z_][a-zA-Z0-9_'.]{7,9}$"
         return re.match(regex, username)
 
-    def get_username_rules(self):
-        return "Username must be 8-10 characters long and can only contain letters, numbers, underscores, apostrophes, and periods."
+    def get_user_name_rules(self):
+        return "Username must start with a letter or underscore and can only contain letters, numbers, underscores, apostrophes, and periods and must be 8-10 characters long."
 
     def validate_password(self, password):
-        regex = r"^[a-zA-Z~!@#$%&_\-+=`|\\(){}[\]:;'<>,.?\/]{12,30}"
+        regex = r"^[a-zA-Z0-9~!@#$%&_\-+=`|\\(){}[\]:;'<>,.?\/]{12,30}$"
         return re.match(regex, password)
+    
+    def get_password_rules(self):
+        return "Password must be 12-30 characters long and must contain at least one uppercase letter, one lowercase letter, one number, and one special character."
 
     def validate_first_name(self, name):
         regex = r"^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ', '-]{1,29}$"
@@ -89,3 +92,10 @@ class InputValidator:
     
     def get_weight_rules(self):
         return "Weight must be a number between 1 and 3 digits long in kg's."
+    
+    def validate_role(self, role):
+        regex = r"^[1-2]$"
+        return re.match(regex, role)
+    
+    def get_role_rules(self):
+        return "Enter 1 or 2"
