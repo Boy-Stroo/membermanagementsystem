@@ -4,18 +4,26 @@ from Controller.UIFormatter import UIFormatter
 from Model.MenuPage import MenuPage
 from Controller.CollectionController import CollectionController
 from Service.Service import Service
+from Service.LogService import LogService
+from Controller.Logger import Logger
+from Controller.InputValidator import InputValidator
+from Controller.LogController import LogController
 
 
 class CollectionMenuPage(MenuPage):
-    def __init__(self, name: str, controller : CollectionController, formatter: UIFormatter, parent=None):
-        super().__init__(name, parent)
+    def __init__(self, name: str, controller : CollectionController, formatter: UIFormatter, user_controller, parent=None):
+        super().__init__(name, parent, user_controller)
         self.controller = controller
         self.formatter = formatter
+        self.logger = Logger()
+        self.log_controller = LogController(LogService(), InputValidator())
+        self.date_accessed = self.logger.read_date()
 
 
     def execute(self, *args):
         self.controller.reset_collection()
         super().execute(*args)
+
 
     def display(self):
         print(self.formatter.display_header(self.name))

@@ -14,7 +14,10 @@ class Service(ABC):
         return cls.instance
 
     def create_table(self):
-        self.c.execute(f'CREATE TABLE IF NOT EXISTS {self.table} ({", ".join([f"{column} TEXT" for column in self.columns])})')
+    # ID TEXT PRIMARY KEY NOT NULL
+    # REST OF THE COLUMNS TEXT
+        columns = ', '.join([f"{column} TEXT PRIMARY KEY NOT NULL" if column == 'id' else f"{column} TEXT" for column in self.columns])
+        self.c.execute(f'CREATE TABLE IF NOT EXISTS {self.table} ({columns})')
         self.conn.commit()
 
     def get_all_from_table(self, table, columns):
@@ -26,13 +29,14 @@ class Service(ABC):
         self.conn.commit()
         return self.c.lastrowid
     
-    def update_in_table(self, table, columns, id, data):
+    def update_in_table(self, table, columns, data: list, id):
         self.c.execute(f'UPDATE {table} SET {", ".join([f"{column} = ?" for column in columns])} WHERE id = ?', (*data, id))
         self.conn.commit()
         return self.c.rowcount
     
     def delete_from_table(self, table, id):
-        self.c.execute(f'DELETE FROM {table} WHERE id = ?', (id))
+        # id sqlite3.ProgrammingError: Incorrect number of bindings supplied. The current statement uses 1, and there are 256 supplied.
+        self.c.execute(f'DELETE FROM {table} WHERE id = ?', (id,))
         self.conn.commit()
         return self.c.rowcount
     
@@ -42,8 +46,8 @@ class Service(ABC):
     def create(self, data):
         return self.create_in_table(self.table, self.columns, data)
 
-    def update(self, id, data):
-        return self.update_in_table(self.table, self.columns, id, data)
-
     def delete(self, id):
         return self.delete_from_table(self.table, id)
+    
+    def update(self, data, id):
+        return self.update_in_table(self.table, self.columns, data, id)

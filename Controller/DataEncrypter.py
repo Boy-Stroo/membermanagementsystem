@@ -9,17 +9,18 @@ import os
 class DataEncrypter:
 
     def hashPassword(self, password: str, salt: bytes):
-        print("hashPassword")
         iterations = 100_000
         return pbkdf2_hmac('sha256', password.encode(), salt, iterations).hex()
 
     def generate_salt(self):
          return os.urandom(16)
     
-    def encrypt_data(self, args):
+    def encrypt_data_list(self, args):
         encrypted_data = []
         key = self.load_public_key()
         for arg in args:
+            if type(arg) is not str:
+                arg = str(arg) 
             encoded = arg.encode()
             encrypted_data.append(key.encrypt(
                 encoded,
@@ -29,6 +30,16 @@ class DataEncrypter:
                         label=None)))
         
         return encrypted_data
+    
+    def encrypt_data(self, arg : str):
+        key = self.load_public_key()
+        encoded = arg.encode()
+        return key.encrypt(
+                encoded,
+                padding.OAEP(
+                        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                        algorithm=hashes.SHA256(),
+                        label=None))
             
     def decrypt_data(self, args):
         decrypted_data = []
@@ -63,7 +74,7 @@ if (__name__ == "__main__"):
     print(wachtwoord)
     data_encrypter = DataEncrypter()
 
-    encrypted = data_encrypter.encrypt_data(wachtwoord)
+    encrypted = data_encrypter.encrypt_data_list(wachtwoord)
     print(encrypted)
 
     decrypted = data_encrypter.decrypt_data(encrypted)

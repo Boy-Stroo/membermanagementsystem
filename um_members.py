@@ -1,25 +1,23 @@
-import datetime
-import random
-import sqlite3
 # import seeder
 
-from Controller.DataEncrypter import DataEncrypter
-from Controller.MemberController import MemberController
+# Boy Stroo (1061579), Jasper Verzijl (1057020), Martin Pietersen (1059195)
+
 from MenuMaker import MenuMaker
 from Service.MemberService import MemberService
 from Service.UserService import UserService
+from Service.LogService import LogService
 
-from Model.User import User, Role
-from Model.MenuItem import MenuItem
 
 
 # Testing area
 # seeder.drop()
 
 memberservice = MemberService()
+logservice = LogService()
 userservice = UserService()
 memberservice.create_table()
 userservice.create_table()
+logservice.create_table()
 # seeder.seed()
 
 

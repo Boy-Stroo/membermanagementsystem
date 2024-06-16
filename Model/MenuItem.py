@@ -1,12 +1,12 @@
-from typing import Callable
 from Model.MenuComponent import MenuComponent
 
 
 class MenuItem(MenuComponent):
-    def __init__(self, name, action, next_page : MenuComponent = None, *args):
+    def __init__(self, name, action, next_page : MenuComponent = None, level=3, *args):
         self.name = name
         self.action = action
         self.next_page = next_page if next_page is not None else None
+        self.level = level
         self.args = args
 
     def display(self):

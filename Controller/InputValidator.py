@@ -3,7 +3,19 @@
 import re
 
 class InputValidator:
-    # def __init__(self, data_encrypter: DataEncrypter, logger: Logger) -> None:
+    # def __init__(self, log_controller):
+        # self.log_controller = log_controller
+
+    def detect_sql_injection(self, input_string: str) -> bool:
+        # Common SQL injection patterns
+        sql_injection_patterns = [
+            r"(?i)(\b(SELECT|UNION|INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|TRUNCATE|REPLACE|EXEC|SHOW|DESCRIBE|USE)\b)",
+            r"(?i)(--|#|\/\*|\*\/|;)"
+        ]
+        for pattern in sql_injection_patterns:
+            if re.search(pattern, input_string):
+                return True
+        return False
 
     def validate_input(self, input):
         pass
@@ -99,3 +111,31 @@ class InputValidator:
     
     def get_role_rules(self):
         return "Enter 1 or 2"
+    
+    def validate_user_id(self, user_id):
+        regex = r"^\d{1,10}$"
+        return re.match(regex, user_id)
+    
+    def get_user_id_rules(self):
+        return "User ID must be a number between 1 and 10 digits long."
+    
+    def validate_user_option(self, option):
+        regex = r"^[1-3]$"
+        return re.match(regex, option)
+    
+    def get_user_option_rules(self):
+        return "Enter 1, 2 or 3"
+    
+    def validate_member_option(self, option):
+        regex = r"^[1-8]$"
+        return re.match(regex, option)
+    
+    def get_member_option_rules(self):
+        return "Enter 1-8"
+    
+    def validate_new_password(self, option):
+        regex = r"^[yYnN]$"
+        return re.match(regex, option)
+    
+    def get_new_password_rules(self):
+        return "Enter Y or N"

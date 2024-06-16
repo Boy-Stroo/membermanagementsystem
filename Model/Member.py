@@ -14,6 +14,17 @@ class Member:
         self.weight = weight
         self.registration_date = registration_date
 
+    def __iter__(self):
+        yield self.member_ID
+        yield self.first_name
+        yield self.last_name
+        yield self.address
+        yield self.phone
+        yield self.email
+        yield self.age
+        yield self.gender
+        yield self.weight
+        yield self.registration_date
 
     def __str__(self) -> str:
         return f'{self.member_ID} {self.first_name} {self.last_name} {self.address} {self.phone} {self.email} {self.age} {self.gender} {self.weight} {self.registration_date}'.lower()

@@ -1,22 +1,55 @@
 import os
 
 from Model.MenuComponent import MenuComponent
+from Controller.UserController import UserController
+from Model.MenuItem import MenuItem
+from typing import List
+from Controller.LogController import LogController
+from Service.LogService import LogService
+from Controller.Logger import Logger
+from Controller.InputValidator import InputValidator
 
 
 class MenuPage(MenuComponent):
-    def __init__(self, name, formatter, parent=None):
+    def __init__(self, name, formatter, user_controller, parent=None):
         self.name = name
         self.parent = parent
         self.formatter = formatter
-        self.menu_items = []
+        self.user_controller : UserController = user_controller
+        self.menu_items : List[MenuItem] = []
+        self.active_menu_items = []
+        self.levels = {
+            'super admin': 1,
+            'system admin': 2,
+            'consultant': 3
+        }
+        self.logger = Logger()
+        self.log_service = LogService()
+        self.input_validator = InputValidator()
 
 
     def execute(self, *args):
         os.system('cls' if os.name == 'nt' else 'clear')
 
+        date_accessed = self.logger.read_date()
+
+        suspicious_logs = LogController(self.log_service, self.input_validator).get_suspicious_logs(date_accessed)
+        if suspicious_logs != [] and self.name != "Login":
+            if "admin" in self.user_controller.logged_in_user.role:
+                print(f"Suspicious logs found: {len(suspicious_logs)}")
+        
+        if self.name == "System Logs":
+            self.logger.write_date()
+
+
+        if self.user_controller.logged_in_user is not None:
+            self.active_menu_items = [x for x in self.menu_items if x.level >= self.levels[self.user_controller.logged_in_user.role.lower()]]
+
         self.display()
 
         option = self.get_input()
+
+        
 
         if self.menu_items[option - 1].execute():
             next_page : MenuPage = self.menu_items[option - 1].get_next_page()
@@ -25,6 +58,8 @@ class MenuPage(MenuComponent):
                 next_page.execute(*args)
             else:
                 self.execute(*args)
+        else:
+            self.execute(*args)
         
     
 
@@ -55,7 +90,10 @@ class MenuPage(MenuComponent):
 
     def display(self):
         print(self.formatter.display_header(self.name))
-        print(self.formatter.format_menu(self.menu_items))
+        if self.user_controller.logged_in_user is None:
+            print(self.formatter.format_menu(self.menu_items))
+        else:
+            print(self.formatter.format_menu(self.active_menu_items))
 
     def set_parent(self, parent):
         self.parent = parent
