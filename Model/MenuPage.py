@@ -42,7 +42,7 @@ class MenuPage(MenuComponent):
             self.logger.write_date()
 
 
-        if self.user_controller.logged_in_user is not None:
+        if self.user_controller.logged_in_user :
             self.active_menu_items = [x for x in self.menu_items if x.level >= self.levels[self.user_controller.logged_in_user.role.lower()]]
 
         self.display()
@@ -53,7 +53,7 @@ class MenuPage(MenuComponent):
 
         if self.menu_items[option - 1].execute():
             next_page : MenuPage = self.menu_items[option - 1].get_next_page()
-            if next_page is not None:
+            if next_page :
                 next_page.set_parent(self)
                 next_page.execute(*args)
             else:

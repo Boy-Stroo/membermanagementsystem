@@ -24,6 +24,8 @@ class UserController(CollectionController):
         
         super().__init__(service, input_validator)
 
+        self.reset_collection()
+
     def generate_user_id(self) -> str:
         year = datetime.now().year.__str__()[2:]
         intyear = int(year)
@@ -148,9 +150,16 @@ class UserController(CollectionController):
                 print(self.input_validator.get_user_id_rules())
             
         return id
+    
     def reset_collection(self):
         super().reset_collection()
-        self.collection = [User(*user) for user in self.collection if self.levels[user[3].lower()] >= self.levels[self.logged_in_user.role.lower()]]
+        #ERROR: User is not subscriptable
+        # self.collection = [User(*user) for user in self.collection if self.levels[user[3].lower()] >= self.levels[self.logged_in_user.role.lower()]]
+
+        if self.logged_in_user is not None:
+            self.collection = [User(*user) for user in self.collection if self.levels[user[3].lower()] >= self.levels[self.logged_in_user.role.lower()]]
+
+        self.collection = [User(*user) for user in self.collection]
     
     def update_user(self):
         id = self.get_user_id()

@@ -25,7 +25,7 @@ class CollectionController:
     def filter(self):
         search_term = input('Enter search term: ').lower() # TODO move to an input validator
 
-        if self.filtered_collection == []:
+        if self.filtered_collection:
             filtered_collection = [x for x in self.collection if x.__str__().lower().find(search_term) != -1]
         else:
             filtered_collection = [x for x in self.filtered_collection if x.__str__().lower().find(search_term) != -1]
@@ -42,8 +42,9 @@ class CollectionController:
     
     def reset_collection(self):
         self.encrypted_collection = self.service.get_all()
-        self.collection = [DataEncrypter().decrypt_data(member) for member in self.encrypted_collection]        
-        self.collection.sort(key=lambda x: x[0])
+        if self.encrypted_collection != []:
+            self.collection = [DataEncrypter().decrypt_data(member) for member in self.encrypted_collection]
+            self.collection.sort(key=lambda x: x[0])
 
         if self.active_filters != []:
             self.filtered_collection = [x for x in self.collection if x.__str__().lower().find(self.active_filters[-1]) != -1]
@@ -72,7 +73,7 @@ class CollectionController:
             if self.input_validator.detect_sql_injection(first_name):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
             
-            if self.input_validator.validate_first_name(first_name) is not None:
+            if self.input_validator.validate_first_name(first_name):
                 break
             print(self.input_validator.get_first_name_rules())
         
@@ -84,14 +85,20 @@ class CollectionController:
             last_name = input()
             if self.input_validator.detect_sql_injection(last_name):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_last_name(last_name) is not None:
+            if self.input_validator.validate_last_name(last_name):
                 break
             print(self.input_validator.get_last_name_rules())
         
         return last_name
     
-    def find_in_collection(self, search_term, index):
-        return [x for x in self.collection if x[index].lower().find(search_term) != -1]
+    def find_in_collection(self, search_term, index, search_element = None):
+        for member in self.collection:
+            for variable in member:
+                # Reflection
+                if variable == search_term:
+                    return False
+        
+        return True
     
     def get_user_name(self):
         while True:
@@ -99,8 +106,8 @@ class CollectionController:
             user_name = input()
             if self.input_validator.detect_sql_injection(user_name):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_user_name(user_name) is not None:
-                if self.find_in_collection(user_name.lower(), 1) == []:
+            if self.input_validator.validate_user_name(user_name):
+                if self.find_in_collection(user_name.lower(), 1):
                     break
                 else:
                     print("Cannot add member with same Username.")
@@ -116,8 +123,8 @@ class CollectionController:
             email = input()
             if self.input_validator.detect_sql_injection(email):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_member_email(email) is not None:
-                if self.find_in_collection(email.lower(), 7) == []:
+            if self.input_validator.validate_member_email(email):
+                if self.find_in_collection(email.lower(), 7):
                     break
                 else:
                     print("Cannot add member with same email address.")
@@ -132,7 +139,7 @@ class CollectionController:
             role = input()
             if self.input_validator.detect_sql_injection(role):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_role(role) is not None:
+            if self.input_validator.validate_role(role):
                 break
             print(self.input_validator.get_role_rules())
         real_role = ''
@@ -150,7 +157,7 @@ class CollectionController:
             password = input()
             if self.input_validator.detect_sql_injection(password):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_password(password) is not None:
+            if self.input_validator.validate_password(password):
                 break
             print(self.input_validator.get_password_rules())
 
@@ -162,7 +169,7 @@ class CollectionController:
             street = input()
             if self.input_validator.detect_sql_injection(street):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_member_street(street) is not None:
+            if self.input_validator.validate_member_street(street):
                 break
             print(self.input_validator.get_street_rules())
     
@@ -174,7 +181,7 @@ class CollectionController:
             house_number = input()
             if self.input_validator.detect_sql_injection(house_number):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_member_house_number(house_number) is not None:
+            if self.input_validator.validate_member_house_number(house_number):
                 break
             print(self.input_validator.get_house_number_rules())
         
@@ -186,7 +193,7 @@ class CollectionController:
             zipcode = input()
             if self.input_validator.detect_sql_injection(zipcode):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_member_zipcode(zipcode) is not None:
+            if self.input_validator.validate_member_zipcode(zipcode):
                 zipcode = zipcode.upper()
                 break
             print(self.input_validator.get_zipcode_rules())
@@ -203,7 +210,7 @@ class CollectionController:
             if self.find_in_collection(phone_number, 8) != []:
                 print("Cannot add member with same phone number.")
                 continue
-            if self.input_validator.validate_member_phone(phone) is not None:
+            if self.input_validator.validate_member_phone(phone):
                 break
             print(self.input_validator.get_phone_rules())
         
@@ -215,7 +222,7 @@ class CollectionController:
             age = input()
             if self.input_validator.detect_sql_injection(age):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_age(age) is not None:
+            if self.input_validator.validate_age(age):
                 break
             print(self.input_validator.get_age_rules())
 
@@ -227,7 +234,7 @@ class CollectionController:
             gender = input()
             if self.input_validator.detect_sql_injection(gender):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_gender(gender) is not None:
+            if self.input_validator.validate_gender(gender):
                 break
             print(self.input_validator.get_gender_rules())
         real_gender = ''
@@ -249,7 +256,7 @@ class CollectionController:
             weight = input()
             if self.input_validator.detect_sql_injection(weight):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
-            if self.input_validator.validate_weight(weight) is not None:
+            if self.input_validator.validate_weight(weight):
                 break
             print(self.input_validator.get_weight_rules())
         

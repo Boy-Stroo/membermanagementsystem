@@ -26,6 +26,7 @@ class MemberController(CollectionController):
 
         
         super().__init__(service, input_validator)
+        self.reset_collection()
 
     def generate_member_id(self) -> str:
         year = datetime.now().year.__str__()[2:]
@@ -103,7 +104,7 @@ class MemberController(CollectionController):
 
         member_to_update = None
         for i, member in enumerate(self.collection):
-            if member[0] == id:
+            if member.member_ID == id:
                 encrypted_member_to_update = self.encrypted_collection[i]
                 member_to_update = self.collection[i]
                 break
@@ -123,107 +124,56 @@ class MemberController(CollectionController):
                 else:
                     print(self.input_validator.get_member_option_rules())
 
+        #Create a new member object
+        member = Member(*member_to_update)
+
         #First name
         if option == '1':
-            first_name = self.get_first_name()
-            last_name = member_to_update[2]
-            age = member_to_update[3]
-            gender = member_to_update[4]
-            weight = member_to_update[5]
-            address = member_to_update[6]
-            email = member_to_update[7]
-            phone_number = member_to_update[8]
+            member.first_name = self.get_first_name()
             
         #Last name
-        elif option == '2':
-            first_name = member_to_update[1]         
-            last_name = self.get_last_name()
-            age = member_to_update[3]
-            gender = member_to_update[4]
-            weight = member_to_update[5]
-            address = member_to_update[6]
-            email = member_to_update[7]
-            phone_number = member_to_update[8]
+        elif option == '2':      
+            member.last_name = self.get_last_name()
+
 
         #Age        
         elif option == '3':
-            first_name = member_to_update[1]         
-            last_name = member_to_update[2]
-            age = self.get_age()
-            gender = member_to_update[4]
-            weight = member_to_update[5]
-            address = member_to_update[6]
-            email = member_to_update[7]
-            phone_number = member_to_update[8]
+            member.age = self.get_age()
 
         #Gender
         elif option == '4':
-            first_name = member_to_update[1]
-            last_name = member_to_update[2]
-            age = member_to_update[3]
-            gender = self.get_gender()
-            weight = member_to_update[5]
-            address = member_to_update[6]
-            email = member_to_update[7]
-            phone_number = member_to_update[8]
+            member.gender = self.get_gender()
+
 
         #Weight
         elif option == '5':
-            first_name = member_to_update[1]
-            last_name = member_to_update[2]
-            age = member_to_update[3]
-            gender = member_to_update[4]
-            weight = self.get_weight()
-            address = member_to_update[6]
-            email = member_to_update[7]
-            phone_number = member_to_update[8]
+            member.weight = self.get_weight()
 
         #Address
         elif option == '6':
-            first_name = member_to_update[1]
-            last_name = member_to_update[2]
-            age = member_to_update[3]
-            gender = member_to_update[4]
-            weight = member_to_update[5]
             street = self.get_street()
             house_number = self.get_house_number()
             zipcode = self.get_zipcode()
             address = Address(street, house_number, zipcode)
-            address = address.__str__()
-            email = member_to_update[7]
-            phone_number = member_to_update[8]
+            member.address = address.__str__()
 
         #Email
         elif option == '7':
-            first_name = member_to_update[1]    
-            last_name = member_to_update[2]
-            age = member_to_update[3]
-            gender = member_to_update[4]
-            weight = member_to_update[5]
-            address = member_to_update[6]
-            email = self.get_email()
-            phone_number = member_to_update[8]
+            member.email = self.get_email()
 
         #Phone number
         elif option == '8':
-            first_name = member_to_update[1]
-            last_name = member_to_update[2]
-            age = member_to_update[3]
-            gender = member_to_update[4]
-            weight = member_to_update[5]
-            address = member_to_update[6]
-            email = member_to_update[7]
-            phone_number = self.get_phone_number()
+            member.phone = self.get_phone_number()
         
-        member = [member_to_update[0], first_name, last_name, age, gender, weight, address, email, phone_number, member_to_update[9]]
         self.service.delete(encrypted_member_to_update[0])
         super().add(member)
         self.logger.create_log(self.user_controller.logged_in_user.username, 'Member is updated', f'Name: {first_name.capitalize()} {last_name.capitalize()}, ID: {member_to_update[0]}', False, service=LogService())
         return True
+    
 
     def reset_collection(self):
-        self.collection = [Member(*member) for member in self.collection]
         super().reset_collection()
+        self.collection : list[Member] = [Member(*member) for member in self.collection]
 
     def remove_member(self):
         while True:
@@ -237,7 +187,7 @@ class MemberController(CollectionController):
                 print(self.input_validator.get_user_id_rules())
 
         for i, member in enumerate(self.collection):
-            if member[0] == id:
+            if member.member_ID == id:
                 member_to_delete = self.encrypted_collection[i]
                 member = self.collection[i]
                 break
@@ -245,7 +195,7 @@ class MemberController(CollectionController):
         self.service.delete(member_to_delete[0])
         print('Member deleted')
         input('Press enter to continue...')
-        self.logger.create_log(self.user_controller.logged_in_user.username, 'Member is deleted', f'Name: {member[1]} {member[2]} ID: {member[0]}', False, service=LogService())
+        self.logger.create_log(self.user_controller.logged_in_user.username, 'Member is deleted', f'Name: {member.first_name} {member.last_name} ID: {member/id}', False, service=LogService())
         return True
 
 if (__name__ == "__main__"):

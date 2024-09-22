@@ -20,13 +20,14 @@ class LogController(CollectionController):
         
         super().__init__(service, input_validator)
         self._instance = self
+        self.reset_collection()
 
     def get_suspicious_logs(self, date):
         suspicious_logs = []
         date = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
         for log in self.collection:
-            new_date = datetime.datetime.strptime(f"{log[1]} {log[2]}" , "%Y-%m-%d %H:%M:%S")
-            if new_date > date and log[-1] == "Yes":
+            new_date = datetime.datetime.strptime(f"{log.date} {log.time}" , "%Y-%m-%d %H:%M:%S")
+            if new_date > date and log.suspicious == "Yes":
                 suspicious_logs.append(log)
 
         return suspicious_logs

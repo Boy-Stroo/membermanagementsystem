@@ -5,7 +5,7 @@ class MenuItem(MenuComponent):
     def __init__(self, name, action, next_page : MenuComponent = None, level=3, *args):
         self.name = name
         self.action = action
-        self.next_page = next_page if next_page is not None else None
+        self.next_page = next_page if next_page  else None
         self.level = level
         self.args = args
 
@@ -14,7 +14,7 @@ class MenuItem(MenuComponent):
 
     def execute(self) -> bool:
         # if there is no action, but there is a next page, go to the next page
-        if self.action is None and self.next_page is not None:
+        if self.action is None and self.next_page :
             return True 
 
         return self.action(*self.args)

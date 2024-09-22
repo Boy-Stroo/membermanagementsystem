@@ -33,3 +33,4 @@ logservice.create_table()
 login_page = MenuMaker.define_menu_structure()
 while True:
     login_page.execute()
+ 
