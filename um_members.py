@@ -12,12 +12,12 @@ from Service.LogService import LogService
 # Testing area
 # seeder.drop()
 
-memberservice = MemberService()
-logservice = LogService()
-userservice = UserService()
-memberservice.create_table()
-userservice.create_table()
-logservice.create_table()
+# memberservice = MemberService()
+# logservice = LogService()
+# userservice = UserService()
+# memberservice.create_table()
+# userservice.create_table()
+# logservice.create_table()
 # seeder.seed()
 
 
@@ -28,7 +28,6 @@ logservice.create_table()
 #     myuser = User(*user)
 #     if myuser.role < Role.CONSULTANT:
 #         print(myuser)
-
 # Uncomment this to run the program
 login_page = MenuMaker.define_menu_structure()
 while True:

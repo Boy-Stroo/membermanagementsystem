@@ -207,7 +207,7 @@ class CollectionController:
             if self.input_validator.detect_sql_injection(phone):
                 self.logger.create_log("", "SQL injection attempt detected", "", True, service=LogService())
             phone_number = "+316" + phone
-            if self.find_in_collection(phone_number, 8) != []:
+            if self.find_in_collection(phone_number, 8):
                 print("Cannot add member with same phone number.")
                 continue
             if self.input_validator.validate_member_phone(phone):

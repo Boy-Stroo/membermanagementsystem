@@ -21,5 +21,3 @@ class FileHelper:
     def compress_to_zip(self, path: str, zip_path: str):
         with ZipFile(zip_path, 'w') as zip:
             zip.write(path)
-
-# Path: main.pyd
